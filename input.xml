@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<FacultyNetworkInformationSystems>
+    <Service
+            Name = "Faculty website"
+            Annotation = "Nice faculty website"
+            Type = "Website"
+            Version = "1.0"
+            Author = "Melnyk I. I."
+            TermsAndConditionsOfUse = "Use with ease"
+            InformationWhenRegisteringUser = "Welcome!!!">
+    </Service>
+    <Service
+            Name = "Department A website"
+            Annotation = "Good department website"
+            Type = "Website"
+            Version = "1.6"
+            Author = "Bob V. B."
+            TermsAndConditionsOfUse = "Use with care"
+            InformationWhenRegisteringUser = "Hello!">
+    </Service>
+    <Service
+            Name = "Department B website"
+            Annotation = "Big department website"
+            Type = "Website"
+            Version = "1.0"
+            Author = "Klymenko D. D."
+            TermsAndConditionsOfUse = "Use with love"
+            InformationWhenRegisteringUser = "Greetings!">
+    </Service>
+    <Service
+            Name = "Department C website"
+            Annotation = "Old department website"
+            Type = "Website"
+            Version = "13.4"
+            Author = "Ivanov B. I."
+            TermsAndConditionsOfUse = "Use with happiness"
+            InformationWhenRegisteringUser = "Have a nice day!">
+    </Service>
+    <Service
+            Name = "Department D website"
+            Annotation = "Old department website"
+            Type = "Website"
+            Version = "0.7"
+            Author = "Klymenko D. D."
+            TermsAndConditionsOfUse = "Use with care"
+            InformationWhenRegisteringUser = "Have a nice day!">
+    </Service>
+    <Service
+            Name = "Department E website"
+            Annotation = "Good department website"
+            Type = "Website"
+            Version = "13.4"
+            Author = "Ivanov B. I."
+            TermsAndConditionsOfUse = "Use with love"
+            InformationWhenRegisteringUser = "Hello!">
+    </Service>
+    <Service
+            Name = "Department F website"
+            Annotation = "Good department website"
+            Type = "Website"
+            Version = "4.4"
+            Author = "Bob V. B."
+            TermsAndConditionsOfUse = "Use with love"
+            InformationWhenRegisteringUser = "Greetings!">
+    </Service>
+    <Service
+            Name = "Faculty forum"
+            Annotation = "Our forum"
+            Type = "Forum"
+            Version = "0.7"
+            Author = "Melnyk T. T."
+            TermsAndConditionsOfUse = "Use with ease"
+            InformationWhenRegisteringUser = "Have a great day!">
+    </Service>
+    <Service
+            Name = "Department A forum"
+            Annotation = "Best forum"
+            Type = "Forum"
+            Version = "1.0"
+            Author = "Melnyk T. T."
+            TermsAndConditionsOfUse = "Use with ease"
+            InformationWhenRegisteringUser = "Hello!">
+    </Service>
+    <Service
+            Name = "Department B forum"
+            Annotation = "Cool forum"
+            Type = "Forum"
+            Version = "13.4"
+            Author = "Ivanov I. I."
+            TermsAndConditionsOfUse = "Use with happiness"
+            InformationWhenRegisteringUser = "Have a nice day!">
+    </Service>
+</FacultyNetworkInformationSystems>
