@@ -1,13 +1,15 @@
 #pragma once
 #include <QString>
 
+constexpr size_t SERVICE_ATTRIBUTES_COUNT = 7;
+
 struct Service
 {
     Service() = default;
     Service(QString name, QString annotation, QString type,
             QString version, QString author, QString termsAndConditionsOfUse,
             QString informationWhenRegisteringUser);
-    QString getInfo();
+    QString getInfo() const;
     QString name;
     QString annotation;
     QString type;
@@ -19,7 +21,7 @@ struct Service
 
 struct WantedService
 {
-    bool isServiceSuitable(const Service &service);
+    bool isServiceSuitable(const Service &service) const;
     std::optional<QString> name;
     std::optional<QString> annotation;
     std::optional<QString> type;

@@ -6,7 +6,7 @@ Service::Service(QString name, QString annotation, QString type,
                  version(version), author(author), termsAndConditionsOfUse(termsAndConditionsOfUse),
                  informationWhenRegisteringUser(informationWhenRegisteringUser) {
 }
-QString Service::getInfo() {
+QString Service::getInfo() const {
     return  "Name: " + name + '\n' +
             "Annotation: " + annotation + '\n' +
             "Type: " + type + '\n' +
@@ -16,7 +16,7 @@ QString Service::getInfo() {
             "InformationWhenRegisteringUser: " + informationWhenRegisteringUser;
 }
 
-bool WantedService::isServiceSuitable(const Service &service) {
+bool WantedService::isServiceSuitable(const Service &service) const {
     auto compareWithWanted = [](const QString &value, const std::optional<QString> &opt) -> bool {
         return bool(opt) ? value == opt.value() : true;
     };

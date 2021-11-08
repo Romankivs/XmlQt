@@ -1,8 +1,5 @@
 #include "XmlSaxHandler.h"
 
-XmlSaxHandler::XmlSaxHandler(QObject *parent) {
-}
-
 void XmlSaxHandler::setData(const QString &input, WantedService wanted) {
     currentService = Service();
     wantedService = wanted;
@@ -23,11 +20,8 @@ QVector<Service> XmlSaxHandler::getResult() {
 bool XmlSaxHandler::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &attribs) {
     if (qName == "Service") {
         if (attribs.count() != SERVICE_ATTRIBUTES_COUNT) {
-            std::cerr <<"Wrong service attributes number" << std::endl;
+            qCritical() << "Wrong service attributes number";
             return false;
-        }
-        for (size_t i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
-
         }
         currentService = Service(attribs.value(0), attribs.value(1),
                                  attribs.value(2), attribs.value(3),
@@ -51,10 +45,6 @@ bool XmlSaxHandler::endElement(const QString &namespaceURI, const QString &local
         return false;
     }
     return true;
-}
-
-bool XmlSaxHandler::characters(const QString &str) {
-    return QXmlDefaultHandler::characters(str);
 }
 
 bool XmlSaxHandler::fatalError(const QXmlParseException &exception) {

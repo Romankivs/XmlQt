@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QXmlDefaultHandler>
 #include <QString>
 #include <iostream>
@@ -8,12 +7,10 @@
 #include <optional>
 #include <Service.h>
 
-constexpr size_t SERVICE_ATTRIBUTES_COUNT = 7;
-
 class XmlSaxHandler : public QXmlDefaultHandler
 {
 public:
-    explicit XmlSaxHandler(QObject *parent = 0);
+    XmlSaxHandler() = default;
     void setData(const QString &input, WantedService wanted);
     QVector<Service> getResult();
     bool startElement(const QString &namespaceURI,
@@ -23,7 +20,6 @@ public:
     bool endElement(const QString &namespaceURI,
                     const QString &localName,
                     const QString &qName) override;
-    bool characters(const QString &str) override;
     bool fatalError(const QXmlParseException &exception) override;
 
 private:

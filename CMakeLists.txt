@@ -25,7 +25,9 @@ set(PROJECT_SOURCES
         ${SRC_DIR}/XmlSaxHandler.cpp
         ${INCLUDE_DIR}/XmlSaxHandler.h
         ${INCLUDE_DIR}/Service.h
-        ${SRC_DIR}/Service.cpp)
+        ${SRC_DIR}/Service.cpp
+        ${SRC_DIR}/XmlDomReader.cpp
+        ${INCLUDE_DIR}/XmlDomReader.h)
 
 add_executable(XmlQt ${PROJECT_SOURCES})
 
