@@ -39,7 +39,7 @@ set(PROJECT_SOURCES
         ${INCLUDE_DIR}/Service.h
         ${SRC_DIR}/Service.cpp
         ${SRC_DIR}/XmlDomReader.cpp
-        ${INCLUDE_DIR}/XmlDomReader.h)
+        ${INCLUDE_DIR}/XmlDomReader.h src/XmlLinqFilterer.cpp include/XmlLinqFilterer.h)
 
 add_executable(XmlQt ${PROJECT_SOURCES})
 
@@ -57,3 +57,5 @@ target_link_libraries(XmlQt
         -ldl
         -lpthread
         )
+
+target_compile_definitions(XmlQt PRIVATE PROJECT_DIRECTORY="${PROJECT_SOURCE_DIR}")

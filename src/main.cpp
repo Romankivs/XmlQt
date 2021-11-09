@@ -10,6 +10,8 @@
 #include <mono/metadata/debug-helpers.h>
 #include <mono/metadata/mono-config.h>
 
+#include "XmlLinqFilterer.h"
+
 int main(int argc, char *argv[]) {
     /*QApplication a(argc, argv);
     XmlSaxHandler handler;
@@ -41,7 +43,7 @@ int main(int argc, char *argv[]) {
     button.show();
     return QApplication::exec();*/
 
-    MonoDomain *domain;
+    /*MonoDomain *domain;
     argc = 1;
     char *argvReplace[] = {
             (char*) "/home/sviat/CLionProjects/XmlQt/Embedded/LinqToXml.dll",
@@ -59,20 +61,18 @@ int main(int argc, char *argv[]) {
     if (!assembly)
         exit(2);
 
-    mono_jit_exec (domain, assembly, argc, argv);
-
     MonoImage* image =  mono_assembly_get_image (assembly);
     MonoClass *klass;
     MonoObject *obj;
     klass = mono_class_from_name (image, "LinqToXml", "XmlLinqFilterer");
     if (!klass) {
-        fprintf (stderr, "Can't find MyType in assembly %s\n", mono_image_get_filename (image));
+        fprintf (stderr, "Can't find LinqToXml type in assembly %s\n", mono_image_get_filename (image));
         exit (3);
     }
     obj = mono_object_new (domain, klass);
     mono_runtime_object_init (obj);
 
-    /* retrieve all the methods we need */
+    // retrieve all the methods we need
     MonoMethod* m, *setData, *getResult;
     void *iter = NULL;
     while ((m = mono_class_get_methods (klass, &iter))) {
@@ -105,5 +105,17 @@ int main(int argc, char *argv[]) {
     char* cRes = mono_string_to_utf8(result);
     std::cerr << cRes << std::endl;
     mono_free(cRes);
-    mono_jit_cleanup(domain);
+    mono_jit_cleanup(domain);*/
+
+    XmlLinqFilterer filt;
+    QFile xmlData("/home/sviat/CLionProjects/XmlQt/input.xml");
+    xmlData.open(QFile::ReadOnly);
+    QTextStream stream(&xmlData);
+    QString stringInput = stream.readAll();
+    WantedService service;
+    service.version = "1.0";
+    filt.setData(stringInput, service);
+    std::cerr << filt.getResult().toStdString();
+    getchar();
+    getchar();
 }
