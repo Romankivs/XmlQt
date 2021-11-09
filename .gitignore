@@ -1,0 +1,4 @@
+.cache
+.idea
+Embedded/.idea
+cmake-build-debug
