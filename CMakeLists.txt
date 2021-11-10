@@ -10,6 +10,15 @@ set(CMAKE_AUTOUIC ON)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
+include(FetchContent)
+FetchContent_Declare(
+        magic_enum
+        GIT_REPOSITORY https://github.com/Neargye/magic_enum
+        GIT_TAG 5bc2689fa5dbfe543b70b87fc63b0d3bdaef963d
+)
+
+FetchContent_MakeAvailable(magic_enum)
+
 find_package(Qt6 COMPONENTS
         Core
         Gui
@@ -38,7 +47,9 @@ set(PROJECT_SOURCES
         src/XmlLinqFilterer.cpp
         include/XmlLinqFilterer.h
         src/MainWindow.cpp
-        include/MainWindow.h)
+        include/MainWindow.h
+        src/ComboBoxPopulator.cpp
+        include/ComboBoxPopulator.h)
 
 add_executable(XmlQt ${PROJECT_SOURCES})
 

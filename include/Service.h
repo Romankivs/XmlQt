@@ -1,6 +1,17 @@
 #pragma once
 #include <QString>
 
+enum ServiceAttributes
+{
+    Name = 0,
+    Annotation,
+    Type,
+    Version,
+    Author,
+    TermsAndConditionsOfUse,
+    InformationWhenRegisteringUser
+};
+
 constexpr size_t SERVICE_ATTRIBUTES_COUNT = 7;
 
 struct Service
