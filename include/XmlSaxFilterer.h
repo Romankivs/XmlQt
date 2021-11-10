@@ -1,18 +1,18 @@
 #pragma once
 #include <QXmlDefaultHandler>
-#include <QString>
 #include <iostream>
 #include <QMessageBox>
 #include <QApplication>
 #include <optional>
-#include <Service.h>
+#include "XmlFiltererStrategy.h"
 
-class XmlSaxFilterer : public QXmlDefaultHandler
+class XmlSaxFilterer : public QXmlDefaultHandler, public XmlFiltererStrategy
 {
 public:
     XmlSaxFilterer() = default;
-    void setData(const QString &input, WantedService wanted);
-    QString getResult();
+    ~XmlSaxFilterer() {};
+    void setData(const QString &input, WantedService wanted) override;
+    QString getResult() override;
     bool startElement(const QString &namespaceURI,
                       const QString &localName,
                       const QString &qName,

@@ -1,6 +1,7 @@
 #include "XmlLinqFilterer.h"
 #include <iostream>
 void XmlLinqFilterer::setData(const QString &input, WantedService wanted) {
+    std::cerr << "LINQ FILTERER" << std::endl;
     void* args[argumentsCount];
     MonoString* inp = mono_string_new(domain, input.toStdString().c_str());
     args[0] = inp;
@@ -8,8 +9,8 @@ void XmlLinqFilterer::setData(const QString &input, WantedService wanted) {
     auto optToMonoStr = [](MonoDomain* domain, std::optional<QString> opt) -> MonoString* {
         if (!opt.has_value())
             return nullptr;
-        const char* value = opt.value().toStdString().c_str();
-        return mono_string_new(domain, value);
+        std::string value = opt.value().toStdString().c_str();
+        return mono_string_new(domain, value.c_str());
     };
 
     for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {

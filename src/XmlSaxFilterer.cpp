@@ -1,6 +1,7 @@
 #include "XmlSaxFilterer.h"
 
 void XmlSaxFilterer::setData(const QString &input, WantedService wanted) {
+    std::cerr << "SAX FILTERER" << std::endl;
     currentService = Service();
     wantedService = wanted;
     matchedServices.clear();

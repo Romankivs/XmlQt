@@ -45,7 +45,7 @@ namespace LinqToXml
                         (version == null || service.Attribute("Version")?.Value == version) &&
                         (author == null || service.Attribute("Author")?.Value == author) &&
                         (termsAndConditionsOfUse == null ||
-                         service.Attribute("TermAndConditionsOfUse")?.Value == termsAndConditionsOfUse) &&
+                         service.Attribute("TermsAndConditionsOfUse")?.Value == termsAndConditionsOfUse) &&
                         (informationWhenRegisteringUser == null ||
                          service.Attribute("InformationWhenRegisteringUser")?.Value == informationWhenRegisteringUser)
                     )

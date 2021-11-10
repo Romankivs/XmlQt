@@ -1,6 +1,7 @@
 #include "XmlDomFilterer.h"
 
 void XmlDomFilterer::setData(const QString &input, WantedService wanted) {
+    std::cerr << "DOM FILTERER" << std::endl;
     wantedService = wanted;
     matchedServices.clear();
 

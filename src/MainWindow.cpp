@@ -4,6 +4,8 @@ MainWindow::MainWindow() {
     mainWidget = new QWidget(this);
     setCentralWidget(mainWidget);
 
+    filterer = new XmlSaxFilterer;
+
     createMenu();
     createApiGroupBox();
     createFilterGroupBox();
@@ -14,6 +16,10 @@ MainWindow::MainWindow() {
     mainLayout->addWidget(apiGroupBox);
     mainLayout->addWidget(filterGroupBox, 1);
     mainWidget->setLayout(mainLayout);
+}
+
+MainWindow::~MainWindow() {
+    delete filterer;
 }
 
 void MainWindow::createMenu() {
@@ -32,9 +38,16 @@ void MainWindow::createApiGroupBox() {
     saxButton = new QRadioButton("SAX");
     domButton = new QRadioButton("DOM");
     linqButton = new QRadioButton("LINQ");
+
     layout->addWidget(saxButton);
     layout->addWidget(domButton);
     layout->addWidget(linqButton);
+
+    connect(saxButton, &QRadioButton::clicked, this, [this](){ delete filterer; filterer = new XmlSaxFilterer;});
+    connect(domButton, &QRadioButton::clicked, this, [this](){ delete filterer; filterer = new XmlDomFilterer;});
+    connect(linqButton, &QRadioButton::clicked, this, [this](){ delete filterer; filterer = new XmlLinqFilterer;});
+
+    saxButton->setChecked(true);
 }
 void MainWindow::createFilterGroupBox() {
     filterGroupBox = new QGroupBox("Filtering", this);
@@ -73,6 +86,8 @@ void MainWindow::loadXml() {
     QTextStream stream(&xmlData);
     input = stream.readAll();
 
+    illFormedInput = false;
+
     populateComboBoxes();
     filterXml();
 }
@@ -82,6 +97,8 @@ void MainWindow::populateComboBoxes() {
     QVector<QVector<QString>> r = populator.getResult();
 
     for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
+        if (r[i].isEmpty()) // error occurred while parsing
+            illFormedInput = true;
         comboBoxes[i]->clear();
         for (int j = 0; j < r[i].size(); ++j) {
             comboBoxes[i]->insertItem(j, r[i][j]);
@@ -89,7 +106,7 @@ void MainWindow::populateComboBoxes() {
     }
 }
 void MainWindow::filterXml() {
-    if (input.isEmpty())
+    if (input.isEmpty() || illFormedInput)
         return;
 
     WantedService wanted;
@@ -99,8 +116,7 @@ void MainWindow::filterXml() {
         }
     }
 
-    XmlDomFilterer filterer;
-    filterer.setData(input, wanted);
-    QString displayText = filterer.getResult();
+    filterer->setData(input, wanted);
+    QString displayText = filterer->getResult();
     textEditor->setText(displayText);
 }

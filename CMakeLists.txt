@@ -49,7 +49,7 @@ set(PROJECT_SOURCES
         src/MainWindow.cpp
         include/MainWindow.h
         src/ComboBoxPopulator.cpp
-        include/ComboBoxPopulator.h)
+        include/ComboBoxPopulator.h include/XmlFiltererStrategy.cpp include/XmlFiltererStrategy.h)
 
 add_executable(XmlQt ${PROJECT_SOURCES})
 

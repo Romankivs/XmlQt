@@ -9,6 +9,7 @@
 #include <QGroupBox>
 #include <QMenuBar>
 #include <QVector>
+#include <QPointer>
 #include <QString>
 #include <QRadioButton>
 #include <QFileDialog>
@@ -23,13 +24,15 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     MainWindow();
+    ~MainWindow();
+private:
     void createMenu();
     void createApiGroupBox();
     void createFilterGroupBox();
     void loadXml();
     void populateComboBoxes();
     void filterXml();
-private:
+
     QMenuBar* menuBar;
     QGroupBox* apiGroupBox;
     QGroupBox* filterGroupBox;
@@ -40,5 +43,8 @@ private:
     QTextEdit* textEditor;
     QWidget* mainWidget;
 
+    QPointer<XmlFiltererStrategy> filterer;
+
     QString input;
+    bool illFormedInput;
 };

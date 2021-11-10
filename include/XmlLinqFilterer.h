@@ -1,11 +1,10 @@
 #pragma once
-#include <QString>
 #include <QVector>
 #include <QDebug>
 #include <QMessageBox>
 #include <QApplication>
 #include <filesystem>
-#include "Service.h"
+#include "XmlFiltererStrategy.h"
 #include <mono/jit/jit.h>
 #include <mono/metadata/object.h>
 #include <mono/metadata/environment.h>
@@ -19,11 +18,11 @@ const std::string className = "XmlLinqFilterer";
 
 constexpr int argumentsCount = 8;
 
-class XmlLinqFilterer {
+class XmlLinqFilterer : public XmlFiltererStrategy {
 public:
     XmlLinqFilterer() = default;
-    void setData(const QString &input, WantedService wanted);
-    QString getResult();
+    void setData(const QString &input, WantedService wanted) override;
+    QString getResult() override;
 private:
     static void error(const QString &msg);
 
