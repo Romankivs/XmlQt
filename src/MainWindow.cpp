@@ -14,21 +14,6 @@ MainWindow::MainWindow() {
     mainLayout->addWidget(apiGroupBox);
     mainLayout->addWidget(filterGroupBox, 1);
     mainWidget->setLayout(mainLayout);
-
-    //XmlLinqFilterer filt;
-    //XmlSaxFilterer filt;
-    XmlDomFilterer filt;
-
-    QFile xmlData("/home/sviat/CLionProjects/XmlQt/input.xml");
-    xmlData.open(QFile::ReadOnly);
-    QTextStream stream(&xmlData);
-    QString stringInput = stream.readAll();
-    WantedService service;
-    service.attributes[ServiceAttributes::Version] = "1.0";
-    filt.setData(stringInput, service);
-
-    input = filt.getResult();
-    textEditor->setText(input);
 }
 
 void MainWindow::createMenu() {
@@ -57,11 +42,15 @@ void MainWindow::createFilterGroupBox() {
     filterGroupBox->setLayout(layout);
     for (int i = 0; i < numberOfAttributes; ++i) {
         checkBoxes[i] = new QCheckBox();
-        labels[i] = new QLabel("Test");
+        labels[i] = new QLabel(magic_enum::enum_name(ServiceAttributes(i)).data());
         comboBoxes[i] = new QComboBox();
+
         layout->addWidget(checkBoxes[i], i, 0);
         layout->addWidget(labels[i], i, 1);
         layout->addWidget(comboBoxes[i], i, 2);
+
+        connect(checkBoxes[i], &QCheckBox::clicked, this, &MainWindow::filterXml);
+        connect(comboBoxes[i], &QComboBox::activated, this, &MainWindow::filterXml);
     }
     textEditor = new QTextEdit();
     textEditor->setReadOnly(true);
@@ -75,10 +64,43 @@ void MainWindow::createFilterGroupBox() {
 void MainWindow::loadXml() {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open XmlFile"),
                                                     PROJECT_DIRECTORY,
-                                                    tr("Xml (*.xml)"));
-    QFile xmlData("/home/sviat/CLionProjects/XmlQt/input.xml");
+                                                    "Xml (*.xml)");
+    if (fileName.isEmpty())
+        return;
+
+    QFile xmlData(fileName);
     xmlData.open(QFile::ReadOnly);
     QTextStream stream(&xmlData);
     input = stream.readAll();
-    textEditor->setText(input);
+
+    populateComboBoxes();
+    filterXml();
+}
+void MainWindow::populateComboBoxes() {
+    ComboBoxPopulator populator;
+    populator.setData(input);
+    QVector<QVector<QString>> r = populator.getResult();
+
+    for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
+        comboBoxes[i]->clear();
+        for (int j = 0; j < r[i].size(); ++j) {
+            comboBoxes[i]->insertItem(j, r[i][j]);
+        }
+    }
+}
+void MainWindow::filterXml() {
+    if (input.isEmpty())
+        return;
+
+    WantedService wanted;
+    for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
+        if (checkBoxes[i]->isChecked()) {
+            wanted.attributes[i] = comboBoxes[i]->currentText();
+        }
+    }
+
+    XmlDomFilterer filterer;
+    filterer.setData(input, wanted);
+    QString displayText = filterer.getResult();
+    textEditor->setText(displayText);
 }

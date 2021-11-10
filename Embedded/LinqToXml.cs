@@ -73,7 +73,7 @@ namespace LinqToXml
                           "InformationWhenRegisteringUser: " + s.informationWhenRegisteringUser;
                 if (matchedServices.IndexOf(s) != matchedServices.Count - 1)
                 {
-                    result += '\n';
+                    result += "\n\n";
                 }
             }
             return result;

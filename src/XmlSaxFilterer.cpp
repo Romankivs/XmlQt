@@ -18,7 +18,7 @@ QString XmlSaxFilterer::getResult() {
     for (size_t i = 0; i < matchedServices.size(); ++i) {
         result += matchedServices[i].getInfo();
         if (i != matchedServices.size() - 1)
-            result += '\n';
+            result += "\n\n";
     }
     return result;
 }

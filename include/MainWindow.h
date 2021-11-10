@@ -8,11 +8,14 @@
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QMenuBar>
+#include <QVector>
+#include <QString>
 #include <QRadioButton>
 #include <QFileDialog>
 #include "XmlSaxFilterer.h"
 #include "XmlDomFilterer.h"
 #include "XmlLinqFilterer.h"
+#include "ComboBoxPopulator.h"
 
 constexpr int numberOfAttributes = 7;
 
@@ -24,6 +27,8 @@ public:
     void createApiGroupBox();
     void createFilterGroupBox();
     void loadXml();
+    void populateComboBoxes();
+    void filterXml();
 private:
     QMenuBar* menuBar;
     QGroupBox* apiGroupBox;
