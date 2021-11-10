@@ -12,13 +12,9 @@ void XmlLinqFilterer::setData(const QString &input, WantedService wanted) {
         return mono_string_new(domain, value);
     };
 
-    args[1] = optToMonoStr(domain, wanted.name);
-    args[2] = optToMonoStr(domain, wanted.annotation);
-    args[3] = optToMonoStr(domain, wanted.type);
-    args[4] = optToMonoStr(domain, wanted.version);
-    args[5] = optToMonoStr(domain, wanted.author);
-    args[6] = optToMonoStr(domain, wanted.termsAndConditionsOfUse);
-    args[7] = optToMonoStr(domain, wanted.informationWhenRegisteringUser);
+    for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
+        args[i + 1] = optToMonoStr(domain, wanted.attributes[i]);
+    }
 
     mono_runtime_invoke(mSetData, linqFiltererObj, args, NULL);
 

@@ -1,43 +1,33 @@
 #pragma once
 #include <QString>
+#include <QVector>
+#include <QStringView>
+#include "magic_enum.hpp"
 
 enum ServiceAttributes
 {
     Name = 0,
-    Annotation,
-    Type,
-    Version,
-    Author,
-    TermsAndConditionsOfUse,
-    InformationWhenRegisteringUser
+    Annotation = 1,
+    Type = 2,
+    Version = 3,
+    Author = 4,
+    TermsAndConditionsOfUse = 5,
+    InformationWhenRegisteringUser = 6
 };
 
-constexpr size_t SERVICE_ATTRIBUTES_COUNT = 7;
+constexpr size_t SERVICE_ATTRIBUTES_COUNT = magic_enum::enum_count<ServiceAttributes>();
 
 struct Service
 {
     Service() = default;
-    Service(QString name, QString annotation, QString type,
-            QString version, QString author, QString termsAndConditionsOfUse,
-            QString informationWhenRegisteringUser);
+    Service(QVector<QString> attributes);
     QString getInfo() const;
-    QString name;
-    QString annotation;
-    QString type;
-    QString version;
-    QString author;
-    QString termsAndConditionsOfUse;
-    QString informationWhenRegisteringUser;
+    QVector<QString> attributes = QVector<QString>(SERVICE_ATTRIBUTES_COUNT);
 };
 
 struct WantedService
 {
+    WantedService() = default;
     bool isServiceSuitable(const Service &service) const;
-    std::optional<QString> name;
-    std::optional<QString> annotation;
-    std::optional<QString> type;
-    std::optional<QString> version;
-    std::optional<QString> author;
-    std::optional<QString> termsAndConditionsOfUse;
-    std::optional<QString> informationWhenRegisteringUser;
+    QVector<std::optional<QString>> attributes = QVector<std::optional<QString>>(SERVICE_ATTRIBUTES_COUNT);
 };

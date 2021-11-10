@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     QTextStream stream(&xmlData);
     QString stringInput = stream.readAll();
     WantedService service;
-    service.version = "1.0";
+    service.attributes[ServiceAttributes::Version] = "1.0";
     filt.setData(stringInput, service);
 
     std::cerr << filt.getResult().toStdString();

@@ -27,15 +27,14 @@ void XmlDomFilterer::setData(const QString &input, WantedService wanted) {
             return;
         }
         const QDomNamedNodeMap& attribs = serviceNode.attributes();
-        auto atribValue = [&attribs](const QString &name){ return attribs.namedItem(name).nodeValue();};
-        const auto currentService = Service(atribValue("Name"),
-                                            atribValue("Annotation"),
-                                            atribValue("Type"),
-                                            atribValue("Version"),
-                                            atribValue("Author"),
-                                            atribValue("TermsAndConditionsOfUse"),
-                                            atribValue("InformationWhenRegisteringUser")
-        );
+
+        auto atribValue = [&attribs](std::string_view name){ return attribs.namedItem(QString::fromStdString(name.data())).nodeValue();};
+
+        auto currentService = Service();
+        for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
+            currentService.attributes[i] = atribValue(magic_enum::enum_name(ServiceAttributes(i)));
+        }
+
         if (wantedService.isServiceSuitable(currentService)) {
             matchedServices.push_back(currentService);
         }

@@ -1,34 +1,29 @@
 #include "Service.h"
-Service::Service(QString name, QString annotation, QString type,
-                 QString version, QString author, QString termsAndConditionsOfUse,
-                 QString informationWhenRegisteringUser) :
-                 name(name), annotation(annotation), type(type),
-                 version(version), author(author), termsAndConditionsOfUse(termsAndConditionsOfUse),
-                 informationWhenRegisteringUser(informationWhenRegisteringUser) {
+
+Service::Service(QVector<QString> attributes) {
+    Q_ASSERT(attributes.size() == SERVICE_ATTRIBUTES_COUNT);
+    attributes = attributes;
 }
+
 QString Service::getInfo() const {
-    return  "Name: " + name + '\n' +
-            "Annotation: " + annotation + '\n' +
-            "Type: " + type + '\n' +
-            "Version: " + version + '\n' +
-            "Author: " + author + '\n' +
-            "TermsAndConditionsOfUse: " + termsAndConditionsOfUse + '\n' +
-            "InformationWhenRegisteringUser: " + informationWhenRegisteringUser;
+    QString result;
+    for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
+        std::string_view s = magic_enum::enum_name(ServiceAttributes(i));
+        result += QString::fromStdString(s.data())
+                  + ": " + attributes[i];
+        if (i != SERVICE_ATTRIBUTES_COUNT - 1)
+            result += '\n';
+    }
+    return result;
 }
 
 bool WantedService::isServiceSuitable(const Service &service) const {
     auto compareWithWanted = [](const QString &value, const std::optional<QString> &opt) -> bool {
         return bool(opt) ? value == opt.value() : true;
     };
-    if (!compareWithWanted(service.name, name) ||
-        !compareWithWanted(service.annotation, annotation) ||
-        !compareWithWanted(service.informationWhenRegisteringUser, informationWhenRegisteringUser) ||
-        !compareWithWanted(service.termsAndConditionsOfUse, termsAndConditionsOfUse) ||
-        !compareWithWanted(service.author, author) ||
-        !compareWithWanted(service.type, type) ||
-        !compareWithWanted(service.version, version)
-        ) {
-        return false;
+    for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
+        if (!compareWithWanted(service.attributes[i], attributes[i]))
+            return false;
     }
     return true;
 }

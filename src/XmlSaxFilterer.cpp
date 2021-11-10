@@ -29,11 +29,10 @@ bool XmlSaxFilterer::startElement(const QString &, const QString &, const QStrin
             qCritical() << "Wrong service attributes number";
             return false;
         }
-        currentService = Service(attribs.value(0), attribs.value(1),
-                                 attribs.value(2), attribs.value(3),
-                                 attribs.value(4), attribs.value(5),
-                                 attribs.value(6)
-                                 );
+        currentService = Service();
+        for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
+            currentService.attributes[i] = attribs.value(i);
+        }
     }
     else if (qName != "FacultyNetworkInformationSystems") {
         return false;

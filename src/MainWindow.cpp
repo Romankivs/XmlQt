@@ -15,14 +15,16 @@ MainWindow::MainWindow() {
     mainLayout->addWidget(filterGroupBox, 1);
     mainWidget->setLayout(mainLayout);
 
-    XmlLinqFilterer filt;
+    //XmlLinqFilterer filt;
+    //XmlSaxFilterer filt;
+    XmlDomFilterer filt;
 
     QFile xmlData("/home/sviat/CLionProjects/XmlQt/input.xml");
     xmlData.open(QFile::ReadOnly);
     QTextStream stream(&xmlData);
     QString stringInput = stream.readAll();
     WantedService service;
-    service.version = "1.0";
+    service.attributes[ServiceAttributes::Version] = "1.0";
     filt.setData(stringInput, service);
 
     input = filt.getResult();
