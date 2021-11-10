@@ -7,11 +7,11 @@
 #include <iostream>
 #include "Service.h"
 
-class XmlDomReader {
+class XmlDomFilterer {
 public:
-    XmlDomReader() = default;
+    XmlDomFilterer() = default;
     void setData(const QString &input, WantedService wanted);
-    QVector<Service> getResult();
+    QString getResult();
 private:
     void error(const QString &msg);
 

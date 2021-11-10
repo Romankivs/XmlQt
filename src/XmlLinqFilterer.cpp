@@ -20,7 +20,7 @@ void XmlLinqFilterer::setData(const QString &input, WantedService wanted) {
     args[6] = optToMonoStr(domain, wanted.termsAndConditionsOfUse);
     args[7] = optToMonoStr(domain, wanted.informationWhenRegisteringUser);
 
-    mono_runtime_invoke(mSetData, linqFiltererObj, args ,NULL);
+    mono_runtime_invoke(mSetData, linqFiltererObj, args, NULL);
 
     MonoString* res = (MonoString*)mono_runtime_invoke(mGetResult, linqFiltererObj, NULL, NULL);
     char* cRes = mono_string_to_utf8(res);

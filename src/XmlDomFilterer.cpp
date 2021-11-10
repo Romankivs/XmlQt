@@ -1,6 +1,6 @@
-#include "XmlDomReader.h"
+#include "XmlDomFilterer.h"
 
-void XmlDomReader::setData(const QString &input, WantedService wanted) {
+void XmlDomFilterer::setData(const QString &input, WantedService wanted) {
     wantedService = wanted;
     matchedServices.clear();
 
@@ -42,10 +42,17 @@ void XmlDomReader::setData(const QString &input, WantedService wanted) {
         serviceNode = serviceNode.nextSibling();
     }
 }
-QVector<Service> XmlDomReader::getResult() {
-    return matchedServices;
+QString XmlDomFilterer::getResult() {
+    QString result;
+    for (size_t i = 0; i < matchedServices.size(); ++i) {
+        result += matchedServices[i].getInfo();
+        if (i != matchedServices.size() - 1)
+            result += '\n';
+    }
+    return result;
 }
-void XmlDomReader::error(const QString &msg) {
+
+void XmlDomFilterer::error(const QString &msg) {
     qCritical() << msg;
     QMessageBox::critical(QApplication::activeWindow(), "Xml Error", msg);
 }

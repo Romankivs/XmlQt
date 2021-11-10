@@ -27,19 +27,18 @@ add_custom_target(LinqToXmlCSharp ALL
         VERBATIM
         )
 
-message("MSC OUTPUT: ${MSC_OUTPUT}")
-
-set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
-set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
-
 set(PROJECT_SOURCES
-        ${SRC_DIR}/main.cpp
-        ${SRC_DIR}/XmlSaxHandler.cpp
-        ${INCLUDE_DIR}/XmlSaxHandler.h
-        ${INCLUDE_DIR}/Service.h
-        ${SRC_DIR}/Service.cpp
-        ${SRC_DIR}/XmlDomReader.cpp
-        ${INCLUDE_DIR}/XmlDomReader.h src/XmlLinqFilterer.cpp include/XmlLinqFilterer.h)
+        src/main.cpp
+        src/XmlSaxFilterer.cpp
+        include/XmlSaxFilterer.h
+        include/Service.h
+        src/Service.cpp
+        src//XmlDomFilterer.cpp
+        include/XmlDomFilterer.h
+        src/XmlLinqFilterer.cpp
+        include/XmlLinqFilterer.h
+        src/MainWindow.cpp
+        include/MainWindow.h)
 
 add_executable(XmlQt ${PROJECT_SOURCES})
 

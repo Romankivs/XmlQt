@@ -1,6 +1,6 @@
-#include "XmlSaxHandler.h"
+#include "XmlSaxFilterer.h"
 
-void XmlSaxHandler::setData(const QString &input, WantedService wanted) {
+void XmlSaxFilterer::setData(const QString &input, WantedService wanted) {
     currentService = Service();
     wantedService = wanted;
     matchedServices.clear();
@@ -13,11 +13,17 @@ void XmlSaxHandler::setData(const QString &input, WantedService wanted) {
     reader.parse(source);
 }
 
-QVector<Service> XmlSaxHandler::getResult() {
-    return matchedServices;
+QString XmlSaxFilterer::getResult() {
+    QString result;
+    for (size_t i = 0; i < matchedServices.size(); ++i) {
+        result += matchedServices[i].getInfo();
+        if (i != matchedServices.size() - 1)
+            result += '\n';
+    }
+    return result;
 }
 
-bool XmlSaxHandler::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &attribs) {
+bool XmlSaxFilterer::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &attribs) {
     if (qName == "Service") {
         if (attribs.count() != SERVICE_ATTRIBUTES_COUNT) {
             qCritical() << "Wrong service attributes number";
@@ -35,7 +41,7 @@ bool XmlSaxHandler::startElement(const QString &, const QString &, const QString
     return true;
 }
 
-bool XmlSaxHandler::endElement(const QString &namespaceURI, const QString &localName, const QString &qName) {
+bool XmlSaxFilterer::endElement(const QString &namespaceURI, const QString &localName, const QString &qName) {
     if (qName == "Service") {
         if (wantedService.isServiceSuitable(currentService)) {
             matchedServices.push_back(currentService);
@@ -47,7 +53,7 @@ bool XmlSaxHandler::endElement(const QString &namespaceURI, const QString &local
     return true;
 }
 
-bool XmlSaxHandler::fatalError(const QXmlParseException &exception) {
+bool XmlSaxFilterer::fatalError(const QXmlParseException &exception) {
     qCritical() << "Fatal error parsing xml on line" << exception.lineNumber() << ':'
                 << exception.message();
     QMessageBox::critical(QApplication::activeWindow(), "Xml Error", exception.message());

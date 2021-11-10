@@ -7,12 +7,12 @@
 #include <optional>
 #include <Service.h>
 
-class XmlSaxHandler : public QXmlDefaultHandler
+class XmlSaxFilterer : public QXmlDefaultHandler
 {
 public:
-    XmlSaxHandler() = default;
+    XmlSaxFilterer() = default;
     void setData(const QString &input, WantedService wanted);
-    QVector<Service> getResult();
+    QString getResult();
     bool startElement(const QString &namespaceURI,
                       const QString &localName,
                       const QString &qName,
