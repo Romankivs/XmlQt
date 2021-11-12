@@ -1,21 +1,19 @@
 #pragma once
-#include <QVector>
-#include <QDomDocument>
-#include <QDebug>
-#include <QMessageBox>
-#include <QApplication>
-#include <iostream>
 #include "XmlFiltererStrategy.h"
+#include <QApplication>
+#include <QDebug>
+#include <QDomDocument>
+#include <QMessageBox>
+#include <QVector>
+#include <iostream>
 
 class XmlDomFilterer : public XmlFiltererStrategy {
 public:
     XmlDomFilterer() = default;
     void setData(const QString &input, WantedService wanted) override;
     QString getResult() override;
-private:
-    void error(const QString &msg);
 
+private:
     WantedService wantedService;
     QVector<Service> matchedServices;
 };
-

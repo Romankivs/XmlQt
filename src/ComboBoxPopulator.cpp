@@ -4,7 +4,7 @@ void ComboBoxPopulator::setData(const QString &input) {
     result.clear();
     errorOccured = false;
 
-    for(int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
+    for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
         result.push_back(QVector<QString>());
     }
 
@@ -30,9 +30,9 @@ void ComboBoxPopulator::setData(const QString &input) {
             error("Wrong service attributes number");
             return;
         }
-        const QDomNamedNodeMap& attribs = serviceNode.attributes();
+        const QDomNamedNodeMap &attribs = serviceNode.attributes();
 
-        auto atribValue = [&attribs](std::string_view name){ return attribs.namedItem(QString::fromStdString(name.data())).nodeValue();};
+        auto atribValue = [&attribs](std::string_view name) { return attribs.namedItem(QString::fromStdString(name.data())).nodeValue(); };
 
         for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
             QString atr = atribValue(magic_enum::enum_name(ServiceAttributes(i)));
@@ -47,7 +47,6 @@ void ComboBoxPopulator::setData(const QString &input) {
 QVector<QVector<QString>> ComboBoxPopulator::getResult() {
     return result;
 }
-
 
 void ComboBoxPopulator::error(const QString &msg) {
     errorOccured = true;

@@ -33,7 +33,7 @@ find_package(LibXslt REQUIRED)
 # Compile CSharp code that will be embedded
 add_custom_target(LinqToXmlCSharp ALL
         COMMAND mcs -out:${PROJECT_SOURCE_DIR}/Embedded/LinqToXml.dll
-            /reference:System.Xml.Linq
+        /reference:System.Xml.Linq
         ${PROJECT_SOURCE_DIR}/Embedded/LinqToXml.cs
         COMMENT "Compiling CSharp code..."
         VERBATIM

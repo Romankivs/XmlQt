@@ -26,16 +26,11 @@ QString XmlSaxFilterer::getResult() {
 
 bool XmlSaxFilterer::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &attribs) {
     if (qName == "Service") {
-        if (attribs.count() != SERVICE_ATTRIBUTES_COUNT) {
-            qCritical() << "Wrong service attributes number";
-            return false;
-        }
         currentService = Service();
         for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
             currentService.attributes[i] = attribs.value(i);
         }
-    }
-    else if (qName != "FacultyNetworkInformationServices") {
+    } else if (qName != "FacultyNetworkInformationServices") {
         return false;
     }
     return true;
@@ -46,8 +41,7 @@ bool XmlSaxFilterer::endElement(const QString &namespaceURI, const QString &loca
         if (wantedService.isServiceSuitable(currentService)) {
             matchedServices.push_back(currentService);
         }
-    }
-    else if (qName != "FacultyNetworkInformationServices") {
+    } else if (qName != "FacultyNetworkInformationServices") {
         return false;
     }
     return true;

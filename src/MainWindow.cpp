@@ -15,7 +15,7 @@ MainWindow::MainWindow() {
 
     setMenuBar(menuBar);
 
-    auto* mainLayout = new QVBoxLayout();
+    auto *mainLayout = new QVBoxLayout();
     mainLayout->addWidget(apiGroupBox);
     mainLayout->addWidget(filterGroupBox, 1);
     mainWidget->setLayout(mainLayout);
@@ -29,17 +29,17 @@ MainWindow::~MainWindow() {
 
 void MainWindow::createMenu() {
     menuBar = new QMenuBar(this);
-    QMenu* file = new QMenu("File");
+    QMenu *file = new QMenu("File");
     menuBar->addMenu(file);
-    auto* loadXmlAction = file->addAction("Load XML");
+    auto *loadXmlAction = file->addAction("Load XML");
     connect(loadXmlAction, &QAction::triggered, this, &MainWindow::loadXml);
-    auto* transformHtmlAction = file->addAction("Transform to HTML");
+    auto *transformHtmlAction = file->addAction("Transform to HTML");
     connect(transformHtmlAction, &QAction::triggered, this, &MainWindow::transformXmlToHtml);
 }
 
 void MainWindow::createApiGroupBox() {
     apiGroupBox = new QGroupBox("Choose API", this);
-    auto* layout = new QHBoxLayout();
+    auto *layout = new QHBoxLayout();
     apiGroupBox->setLayout(layout);
     saxButton = new QRadioButton("SAX");
     domButton = new QRadioButton("DOM");
@@ -49,15 +49,15 @@ void MainWindow::createApiGroupBox() {
     layout->addWidget(domButton);
     layout->addWidget(linqButton);
 
-    connect(saxButton, &QRadioButton::clicked, this, [this](){ delete filterer; filterer = new XmlSaxFilterer;});
-    connect(domButton, &QRadioButton::clicked, this, [this](){ delete filterer; filterer = new XmlDomFilterer;});
-    connect(linqButton, &QRadioButton::clicked, this, [this](){ delete filterer; filterer = new XmlLinqFilterer;});
+    connect(saxButton, &QRadioButton::clicked, this, [this]() { delete filterer; filterer = new XmlSaxFilterer; });
+    connect(domButton, &QRadioButton::clicked, this, [this]() { delete filterer; filterer = new XmlDomFilterer; });
+    connect(linqButton, &QRadioButton::clicked, this, [this]() { delete filterer; filterer = new XmlLinqFilterer; });
 
     saxButton->setChecked(true);
 }
 void MainWindow::createFilterGroupBox() {
     filterGroupBox = new QGroupBox("Filtering", this);
-    auto* layout = new QGridLayout();
+    auto *layout = new QGridLayout();
     filterGroupBox->setLayout(layout);
     for (int i = 0; i < numberOfAttributes; ++i) {
         checkBoxes[i] = new QCheckBox();
@@ -102,11 +102,13 @@ void MainWindow::loadXml() {
 void MainWindow::populateComboBoxes() {
     ComboBoxPopulator populator;
     populator.setData(input);
+    if (populator.checkIfErrorOccured()) {
+        illFormedInput = true;
+        return;
+    }
     QVector<QVector<QString>> r = populator.getResult();
 
     for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
-        if (populator.checkIfErrorOccured()) // error occurred while parsing
-            illFormedInput = true;
         comboBoxes[i]->clear();
         for (int j = 0; j < r[i].size(); ++j) {
             comboBoxes[i]->insertItem(j, r[i][j]);
@@ -140,7 +142,7 @@ void MainWindow::transformXmlToHtml() {
         return;
 
     const QString xsltFile = QString(PROJECT_DIRECTORY) + QString("/transform.xsl");
-    xsltStylesheetPtr cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.toStdString().c_str());
+    xsltStylesheetPtr cur = xsltParseStylesheetFile((const xmlChar *) xsltFile.toStdString().c_str());
 
     xmlDocPtr doc = xmlParseFile(currentFileName.toStdString().c_str());
     xmlDocPtr res = xsltApplyStylesheet(cur, doc, NULL);

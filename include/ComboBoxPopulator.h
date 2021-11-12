@@ -1,11 +1,11 @@
 #pragma once
+#include "Service.h"
+#include <QApplication>
+#include <QDebug>
+#include <QDomDocument>
+#include <QMessageBox>
 #include <QString>
 #include <QVector>
-#include <QDomDocument>
-#include <QDebug>
-#include <QMessageBox>
-#include <QApplication>
-#include "Service.h"
 
 class ComboBoxPopulator {
 public:
@@ -13,9 +13,9 @@ public:
     void setData(const QString &input);
     QVector<QVector<QString>> getResult();
     bool checkIfErrorOccured();
+
 private:
     void error(const QString &msg);
     bool errorOccured;
     QVector<QVector<QString>> result;
 };
-

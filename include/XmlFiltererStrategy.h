@@ -9,5 +9,3 @@ public:
     virtual void setData(const QString &input, WantedService wanted) = 0;
     virtual QString getResult() = 0;
 };
-
-

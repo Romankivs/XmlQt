@@ -9,8 +9,7 @@ QString Service::getInfo() const {
     QString result;
     for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
         std::string_view s = magic_enum::enum_name(ServiceAttributes(i));
-        result += QString::fromStdString(s.data())
-                  + ": " + attributes[i];
+        result += QString::fromStdString(s.data()) + ": " + attributes[i];
         if (i != SERVICE_ATTRIBUTES_COUNT - 1)
             result += '\n';
     }
