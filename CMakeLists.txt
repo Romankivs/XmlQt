@@ -27,6 +27,9 @@ find_package(Qt6 COMPONENTS
         Core5Compat
         REQUIRED)
 
+find_package(LibXml2 REQUIRED)
+find_package(LibXslt REQUIRED)
+
 # Compile CSharp code that will be embedded
 add_custom_target(LinqToXmlCSharp ALL
         COMMAND mcs -out:${PROJECT_SOURCE_DIR}/Embedded/LinqToXml.dll
@@ -49,11 +52,13 @@ set(PROJECT_SOURCES
         src/MainWindow.cpp
         include/MainWindow.h
         src/ComboBoxPopulator.cpp
-        include/ComboBoxPopulator.h include/XmlFiltererStrategy.cpp include/XmlFiltererStrategy.h)
+        include/ComboBoxPopulator.h
+        include/XmlFiltererStrategy.h)
 
 add_executable(XmlQt ${PROJECT_SOURCES})
 
-target_include_directories(XmlQt PRIVATE ${PROJECT_SOURCE_DIR}/include /usr/include/mono-2.0/)
+target_include_directories(XmlQt PRIVATE ${PROJECT_SOURCE_DIR}/include /usr/include/mono-2.0/
+        ${LIBXSLT_INCLUDE_DIRS} ${LIBXML2_INCLUDE_DIRS})
 
 target_link_libraries(XmlQt
         Qt::Core
@@ -66,6 +71,8 @@ target_link_libraries(XmlQt
         -lrt
         -ldl
         -lpthread
+        ${LIBXML2_LIBRARIES}
+        ${LIBXSLT_LIBRARIES}
         )
 
-target_compile_definitions(XmlQt PRIVATE PROJECT_DIRECTORY="${PROJECT_SOURCE_DIR}")
+target_compile_definitions(XmlQt PRIVATE PROJECT_DIRECTORY="${PROJECT_SOURCE_DIR}" ${LIBXML2_DEFINITIONS} ${LIBXSLT_DEFINITIONS})

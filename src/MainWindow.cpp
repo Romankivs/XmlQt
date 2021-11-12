@@ -1,6 +1,9 @@
 #include "MainWindow.h"
 
 MainWindow::MainWindow() {
+    xmlSubstituteEntitiesDefault(1);
+    xmlLoadExtDtdDefaultValue = 1;
+
     mainWidget = new QWidget(this);
     setCentralWidget(mainWidget);
 
@@ -20,6 +23,8 @@ MainWindow::MainWindow() {
 
 MainWindow::~MainWindow() {
     delete filterer;
+    xsltCleanupGlobals();
+    xmlCleanupParser();
 }
 
 void MainWindow::createMenu() {
@@ -29,6 +34,7 @@ void MainWindow::createMenu() {
     auto* loadXmlAction = file->addAction("Load XML");
     connect(loadXmlAction, &QAction::triggered, this, &MainWindow::loadXml);
     auto* transformHtmlAction = file->addAction("Transform to HTML");
+    connect(transformHtmlAction, &QAction::triggered, this, &MainWindow::transformXmlToHtml);
 }
 
 void MainWindow::createApiGroupBox() {
@@ -81,6 +87,8 @@ void MainWindow::loadXml() {
     if (fileName.isEmpty())
         return;
 
+    currentFileName = fileName;
+
     QFile xmlData(fileName);
     xmlData.open(QFile::ReadOnly);
     QTextStream stream(&xmlData);
@@ -97,7 +105,7 @@ void MainWindow::populateComboBoxes() {
     QVector<QVector<QString>> r = populator.getResult();
 
     for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
-        if (r[i].isEmpty()) // error occurred while parsing
+        if (populator.checkIfErrorOccured()) // error occurred while parsing
             illFormedInput = true;
         comboBoxes[i]->clear();
         for (int j = 0; j < r[i].size(); ++j) {
@@ -119,4 +127,27 @@ void MainWindow::filterXml() {
     filterer->setData(input, wanted);
     QString displayText = filterer->getResult();
     textEditor->setText(displayText);
+}
+void MainWindow::transformXmlToHtml() {
+    if (currentFileName.isEmpty()) {
+        QMessageBox::warning(this, "Transform error", "No xml file loaded");
+        return;
+    }
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save as Html file"), PROJECT_DIRECTORY,
+                                                    tr("Html file (*.html)"));
+    if (fileName.isEmpty())
+        return;
+
+    const QString xsltFile = QString(PROJECT_DIRECTORY) + QString("/transform.xsl");
+    xsltStylesheetPtr cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.toStdString().c_str());
+
+    xmlDocPtr doc = xmlParseFile(currentFileName.toStdString().c_str());
+    xmlDocPtr res = xsltApplyStylesheet(cur, doc, NULL);
+
+    xsltSaveResultToFilename(fileName.toStdString().c_str(), res, cur, 0);
+
+    xsltFreeStylesheet(cur);
+    xmlFreeDoc(res);
+    xmlFreeDoc(doc);
 }

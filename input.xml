@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<FacultyNetworkInformationSystems>
+<FacultyNetworkInformationServices>
     <Service
             Name = "Faculty website"
             Annotation = "Nice faculty website"
@@ -85,9 +85,8 @@
             Name = "Department B forum"
             Annotation = "Cool forum"
             Type = "Forum"
-            Version = "13.4"
             Author = "Ivanov I. I."
             TermsAndConditionsOfUse = "Use with happiness"
             InformationWhenRegisteringUser = "Have a nice day!">
     </Service>
-</FacultyNetworkInformationSystems>
+</FacultyNetworkInformationServices>

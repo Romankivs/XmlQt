@@ -2,6 +2,8 @@
 
 void ComboBoxPopulator::setData(const QString &input) {
     result.clear();
+    errorOccured = false;
+
     for(int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
         result.push_back(QVector<QString>());
     }
@@ -13,7 +15,7 @@ void ComboBoxPopulator::setData(const QString &input) {
     }
 
     QDomElement rootElement = domDocument.documentElement();
-    if (rootElement.tagName() != "FacultyNetworkInformationSystems") {
+    if (rootElement.tagName() != "FacultyNetworkInformationServices") {
         error("Bad root tag: " + rootElement.tagName());
         return;
     }
@@ -48,6 +50,10 @@ QVector<QVector<QString>> ComboBoxPopulator::getResult() {
 
 
 void ComboBoxPopulator::error(const QString &msg) {
+    errorOccured = true;
     qCritical() << msg;
     QMessageBox::critical(QApplication::activeWindow(), "Xml Error", msg);
+}
+bool ComboBoxPopulator::checkIfErrorOccured() {
+    return errorOccured;
 }

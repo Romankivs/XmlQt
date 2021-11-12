@@ -12,7 +12,7 @@ void XmlDomFilterer::setData(const QString &input, WantedService wanted) {
     }
 
     QDomElement rootElement = domDocument.documentElement();
-    if (rootElement.tagName() != "FacultyNetworkInformationSystems") {
+    if (rootElement.tagName() != "FacultyNetworkInformationServices") {
         error("Bad root tag: " + rootElement.tagName());
         return;
     }

@@ -35,7 +35,7 @@ bool XmlSaxFilterer::startElement(const QString &, const QString &, const QStrin
             currentService.attributes[i] = attribs.value(i);
         }
     }
-    else if (qName != "FacultyNetworkInformationSystems") {
+    else if (qName != "FacultyNetworkInformationServices") {
         return false;
     }
     return true;
@@ -47,7 +47,7 @@ bool XmlSaxFilterer::endElement(const QString &namespaceURI, const QString &loca
             matchedServices.push_back(currentService);
         }
     }
-    else if (qName != "FacultyNetworkInformationSystems") {
+    else if (qName != "FacultyNetworkInformationServices") {
         return false;
     }
     return true;
