@@ -9,7 +9,6 @@
 class XmlSaxFilterer : public QXmlDefaultHandler, public XmlFiltererStrategy {
 public:
     XmlSaxFilterer() = default;
-    ~XmlSaxFilterer(){};
     void setData(const QString &input, WantedService wanted) override;
     QString getResult() override;
     bool startElement(const QString &namespaceURI,
