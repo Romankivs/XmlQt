@@ -2,6 +2,7 @@
 
 void XmlSaxFilterer::setData(const QString &input, WantedService wanted) {
     std::cerr << "SAX FILTERER" << std::endl;
+
     currentService = Service();
     wantedService = wanted;
     matchedServices.clear();
@@ -30,8 +31,6 @@ bool XmlSaxFilterer::startElement(const QString &, const QString &, const QStrin
         for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
             currentService.attributes[i] = attribs.value(i);
         }
-    } else if (qName != "FacultyNetworkInformationServices") {
-        return false;
     }
     return true;
 }
@@ -41,15 +40,7 @@ bool XmlSaxFilterer::endElement(const QString &namespaceURI, const QString &loca
         if (wantedService.isServiceSuitable(currentService)) {
             matchedServices.push_back(currentService);
         }
-    } else if (qName != "FacultyNetworkInformationServices") {
-        return false;
     }
     return true;
 }
 
-bool XmlSaxFilterer::fatalError(const QXmlParseException &exception) {
-    qCritical() << "Fatal error parsing xml on line" << exception.lineNumber() << ':'
-                << exception.message();
-    QMessageBox::critical(QApplication::activeWindow(), "Xml Error", exception.message());
-    return false;
-}

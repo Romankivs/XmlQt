@@ -23,7 +23,7 @@ public:
     XmlLinqFilterer() = default;
     void setData(const QString &input, WantedService wanted) override;
     QString getResult() override;
-
+    static void cleanupMonoRuntime();
 private:
     static void error(const QString &msg);
 

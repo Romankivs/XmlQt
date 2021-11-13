@@ -2,6 +2,7 @@
 #include <iostream>
 void XmlLinqFilterer::setData(const QString &input, WantedService wanted) {
     std::cerr << "LINQ FILTERER" << std::endl;
+
     void *args[argumentsCount];
     MonoString *inp = mono_string_new(domain, input.toStdString().c_str());
     args[0] = inp;
@@ -23,6 +24,7 @@ void XmlLinqFilterer::setData(const QString &input, WantedService wanted) {
     char *cRes = mono_string_to_utf8(res);
     result = QString(cRes);
     mono_free(cRes);
+
 }
 
 QString XmlLinqFilterer::getResult() {
@@ -89,3 +91,7 @@ MonoMethod *XmlLinqFilterer::mGetResult = []() {
     }
     return m;
 }();
+
+void XmlLinqFilterer::cleanupMonoRuntime() {
+    mono_jit_cleanup(domain);
+}

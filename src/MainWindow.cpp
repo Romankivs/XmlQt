@@ -23,13 +23,16 @@ MainWindow::MainWindow() {
 
 MainWindow::~MainWindow() {
     delete filterer;
+
     xsltCleanupGlobals();
     xmlCleanupParser();
+
+    XmlLinqFilterer::cleanupMonoRuntime();
 }
 
 void MainWindow::createMenu() {
     menuBar = new QMenuBar(this);
-    QMenu *file = new QMenu("File");
+    auto* file = new QMenu("File");
     menuBar->addMenu(file);
     auto *loadXmlAction = file->addAction("Load XML");
     connect(loadXmlAction, &QAction::triggered, this, &MainWindow::loadXml);
@@ -59,7 +62,8 @@ void MainWindow::createFilterGroupBox() {
     filterGroupBox = new QGroupBox("Filtering", this);
     auto *layout = new QGridLayout();
     filterGroupBox->setLayout(layout);
-    for (int i = 0; i < numberOfAttributes; ++i) {
+
+    for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
         checkBoxes[i] = new QCheckBox();
         labels[i] = new QLabel(magic_enum::enum_name(ServiceAttributes(i)).data());
         comboBoxes[i] = new QComboBox();
@@ -71,9 +75,11 @@ void MainWindow::createFilterGroupBox() {
         connect(checkBoxes[i], &QCheckBox::clicked, this, &MainWindow::filterXml);
         connect(comboBoxes[i], &QComboBox::activated, this, &MainWindow::filterXml);
     }
+
     textEditor = new QTextEdit();
     textEditor->setReadOnly(true);
-    layout->addWidget(textEditor, 0, 3, numberOfAttributes, 1);
+    layout->addWidget(textEditor, 0, 3, SERVICE_ATTRIBUTES_COUNT, 1);
+
     layout->setColumnStretch(0, 1);
     layout->setColumnStretch(1, 2);
     layout->setColumnStretch(2, 10);
@@ -131,7 +137,7 @@ void MainWindow::filterXml() {
     textEditor->setText(displayText);
 }
 void MainWindow::transformXmlToHtml() {
-    if (currentFileName.isEmpty()) {
+    if (currentFileName.isEmpty() || illFormedInput) {
         QMessageBox::warning(this, "Transform error", "No xml file loaded");
         return;
     }

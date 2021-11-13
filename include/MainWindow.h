@@ -31,9 +31,6 @@
 #include <libxslt/xsltInternals.h>
 #include <libxslt/xsltutils.h>
 
-constexpr int numberOfAttributes = 7;
-
-
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
@@ -53,16 +50,15 @@ private:
     QGroupBox *apiGroupBox;
     QGroupBox *filterGroupBox;
     QRadioButton *saxButton, *domButton, *linqButton;
-    QCheckBox *checkBoxes[numberOfAttributes];
-    QLabel *labels[numberOfAttributes];
-    QComboBox *comboBoxes[numberOfAttributes];
+    QCheckBox *checkBoxes[SERVICE_ATTRIBUTES_COUNT];
+    QLabel *labels[SERVICE_ATTRIBUTES_COUNT];
+    QComboBox *comboBoxes[SERVICE_ATTRIBUTES_COUNT];
     QTextEdit *textEditor;
     QWidget *mainWidget;
 
     QPointer<XmlFiltererStrategy> filterer;
 
     QString currentFileName;
-
     QString input;
     bool illFormedInput;
 };

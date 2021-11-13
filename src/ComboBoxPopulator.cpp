@@ -32,7 +32,9 @@ void ComboBoxPopulator::setData(const QString &input) {
         }
         const QDomNamedNodeMap &attribs = serviceNode.attributes();
 
-        auto atribValue = [&attribs](std::string_view name) { return attribs.namedItem(QString::fromStdString(name.data())).nodeValue(); };
+        auto atribValue = [&attribs](std::string_view name) -> QString {
+            return attribs.namedItem(QString::fromStdString(name.data())).nodeValue();
+        };
 
         for (int i = 0; i < SERVICE_ATTRIBUTES_COUNT; ++i) {
             QString atr = atribValue(magic_enum::enum_name(ServiceAttributes(i)));

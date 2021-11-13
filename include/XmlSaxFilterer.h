@@ -19,7 +19,6 @@ public:
     bool endElement(const QString &namespaceURI,
                     const QString &localName,
                     const QString &qName) override;
-    bool fatalError(const QXmlParseException &exception) override;
 
 private:
     Service currentService;
